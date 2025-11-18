@@ -19,6 +19,13 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavController) {
     var senha by remember { mutableStateOf("") }
     var erro by remember { mutableStateOf("") }
 
+
+    LaunchedEffect(Unit) {
+        usuario = ""
+        senha = ""
+        erro = ""
+    }
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -42,7 +49,8 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavController) {
             OutlinedTextField(
                 value = usuario,
                 onValueChange = { usuario = it },
-                label = { Text("Usuário") }
+                label = { Text("Usuário") },
+                isError = erro.isNotEmpty()
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -50,7 +58,8 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavController) {
             OutlinedTextField(
                 value = senha,
                 onValueChange = { senha = it },
-                label = { Text("Senha") }
+                label = { Text("Senha") },
+                isError = erro.isNotEmpty()
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -59,9 +68,11 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavController) {
                 onClick = {
                     if (usuario == "admin" && senha == "123456") {
                         erro = ""
-                        navController.navigate("menu")
+                        navController.navigate("menu") {
+                            popUpTo("login") { inclusive = true }
+                        }
                     } else {
-                        erro = "Usuário inválido"
+                        erro = "Usuário ou senha inválidos"
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
@@ -76,3 +87,5 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavController) {
         }
     }
 }
+
+
