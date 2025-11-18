@@ -16,3 +16,4 @@ fun determinarClassificacaoIMC(imc: Double): String {
         else -> "Obesidade Grau III"
     }
 }
+
